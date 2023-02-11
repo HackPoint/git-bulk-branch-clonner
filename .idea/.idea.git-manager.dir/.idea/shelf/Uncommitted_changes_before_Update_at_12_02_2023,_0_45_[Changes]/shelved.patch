@@ -1,0 +1,19 @@
+Index: Program.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>using System.Net;\nusing Octokit;\nusing Credentials = Octokit.Credentials;\nusing Repository = Octokit.Repository;\n\nclass Program {\n    private static string _token = \"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\";\n\n    private static async Task<string> GetWebPage(string uri) {\n        var httpClient = new HttpClient();\n        httpClient.DefaultRequestHeaders.Add(\"X-GitHub-Api-Version\", \" 2022-11-28\");\n        httpClient.DefaultRequestHeaders.Add(\"Authorization\", $\"Bearer ${_token}\");\n        httpClient.DefaultRequestHeaders.Add(\"Accept\", \"application/vnd.github+json\");\n        httpClient.DefaultRequestHeaders.Add(\"User-Agent\",\n            @\"Mozilla/5.0 (Windows NT 10; Win64; x64; rv:60.0) Gecko/20100101 Firefox/60.0\");\n\n        var response =\n            await httpClient.GetAsync(new Uri(uri, UriKind.Absolute), HttpCompletionOption.ResponseContentRead);\n\n        return await response.Content.ReadAsStringAsync();\n    }\n\n    private static void Download(string token, string url) {\n        var request = (HttpWebRequest) WebRequest.Create(url);\n        request.Headers.Add(HttpRequestHeader.Authorization, string.Concat(\"token \", token));\n        request.Accept = \"application/vnd.github.v3.raw\";\n        request.UserAgent = \"test app\";\n        using (var response = request.GetResponse()) {\n            var encoding = System.Text.Encoding.UTF8;\n            using (var reader = new System.IO.StreamReader(response.GetResponseStream(), encoding)) {\n                var fileContent = reader.ReadToEnd();\n            }\n        }\n    }\n\n    public static void Main(string[] args) {\n        try {\n            var client = new GitHubClient(new ProductHeaderValue(\"OctokitTests\"));\n            client.Credentials = new Credentials(_token, AuthenticationType.Bearer);\n            var org = client.Organization.Get(\"Arborknot\").Result;\n            var listOfRepositories = client.Repository.GetAllForOrg(org.Name).Result;\n\n            foreach (var repository in listOfRepositories) {\n                Download(_token, repository.CloneUrl);\n            }\n            /*// This works:\n            Task<string> getPageTask = GetWebPage(org.ReposUrl);\n            getPageTask.Wait();\n            if (getPageTask.IsCompleted)\n                Console.WriteLine(getPageTask.Result);*/\n        }\n        catch (AggregateException aex) {\n            aex.InnerExceptions.AsParallel().ForAll(ex => Console.WriteLine(ex));\n        }\n        catch (Exception ex) {\n            Console.WriteLine(ex);\n        }\n\n        Console.ReadKey();\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Program.cs b/Program.cs
+--- a/Program.cs	(revision 094c476a3f78ae0352f5189f2d0dbd2a45a34fe0)
++++ b/Program.cs	(date 1676155501221)
+@@ -4,7 +4,7 @@
+ using Repository = Octokit.Repository;
+ 
+ class Program {
+-    private static string _token = "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";
++    private static string _token = "";
+ 
+     private static async Task<string> GetWebPage(string uri) {
+         var httpClient = new HttpClient();
