@@ -1,37 +1,8 @@
-﻿using System.Net;
+﻿using System.Diagnostics;
 using Octokit;
-using Credentials = Octokit.Credentials;
-using Repository = Octokit.Repository;
 
 class Program {
     private static string _token = "";
-
-    private static async Task<string> GetWebPage(string uri) {
-        var httpClient = new HttpClient();
-        httpClient.DefaultRequestHeaders.Add("X-GitHub-Api-Version", " 2022-11-28");
-        httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer ${_token}");
-        httpClient.DefaultRequestHeaders.Add("Accept", "application/vnd.github+json");
-        httpClient.DefaultRequestHeaders.Add("User-Agent",
-            @"Mozilla/5.0 (Windows NT 10; Win64; x64; rv:60.0) Gecko/20100101 Firefox/60.0");
-
-        var response =
-            await httpClient.GetAsync(new Uri(uri, UriKind.Absolute), HttpCompletionOption.ResponseContentRead);
-
-        return await response.Content.ReadAsStringAsync();
-    }
-
-    private static void Download(string token, string url) {
-        var request = (HttpWebRequest) WebRequest.Create(url);
-        request.Headers.Add(HttpRequestHeader.Authorization, string.Concat("token ", token));
-        request.Accept = "application/vnd.github.v3.raw";
-        request.UserAgent = "test app";
-        using (var response = request.GetResponse()) {
-            var encoding = System.Text.Encoding.UTF8;
-            using (var reader = new System.IO.StreamReader(response.GetResponseStream(), encoding)) {
-                var fileContent = reader.ReadToEnd();
-            }
-        }
-    }
 
     public static void Main(string[] args) {
         try {
@@ -41,13 +12,16 @@ class Program {
             var listOfRepositories = client.Repository.GetAllForOrg(org.Name).Result;
 
             foreach (var repository in listOfRepositories) {
-                Download(_token, repository.CloneUrl);
+                Console.WriteLine(repository.Name);
+                Console.WriteLine(repository.CloneUrl);
+
+                var clone = RunClone(repository.CloneUrl, "/Users/hackpoint/dev/ar-workspace");
+                clone.Wait();
+
+                if (clone.IsCompleted) {
+                    Console.WriteLine(repository.Name + "clone completed!");
+                }
             }
-            /*// This works:
-            Task<string> getPageTask = GetWebPage(org.ReposUrl);
-            getPageTask.Wait();
-            if (getPageTask.IsCompleted)
-                Console.WriteLine(getPageTask.Result);*/
         }
         catch (AggregateException aex) {
             aex.InnerExceptions.AsParallel().ForAll(ex => Console.WriteLine(ex));
@@ -57,5 +31,22 @@ class Program {
         }
 
         Console.ReadKey();
+    }
+
+    private static Task<int> RunClone(string url, string cloneToLocation) {
+        var tcs = new TaskCompletionSource<int>();
+
+        var cloneProcess = new Process {
+            StartInfo = {FileName = "git", Arguments = $"clone `${url}` .", WorkingDirectory = cloneToLocation},
+            EnableRaisingEvents = true
+        };
+
+        cloneProcess.Exited += (sender, args) => {
+            tcs.SetResult(cloneProcess.ExitCode);
+            cloneProcess.Dispose();
+        };
+
+        cloneProcess.Start();
+        return tcs.Task;
     }
 }
