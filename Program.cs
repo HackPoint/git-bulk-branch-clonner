@@ -2,12 +2,13 @@
 using Octokit;
 
 class Program {
-    private static string _token = "";
+    private static string _token = "";// todo: add active git token
 
     public static void Main(string[] args) {
         try {
-            var client = new GitHubClient(new ProductHeaderValue("OctokitTests"));
-            client.Credentials = new Credentials(_token, AuthenticationType.Bearer);
+            var client = new GitHubClient(new ProductHeaderValue("OctokitTests")) {
+                Credentials = new Credentials(_token, AuthenticationType.Bearer)
+            };
             var org = client.Organization.Get("Arborknot").Result;
             var listOfRepositories = client.Repository.GetAllForOrg(org.Name).Result;
 
@@ -37,7 +38,7 @@ class Program {
         var tcs = new TaskCompletionSource<int>();
 
         var cloneProcess = new Process {
-            StartInfo = {FileName = "git", Arguments = $"clone `${url}` .", WorkingDirectory = cloneToLocation},
+            StartInfo = {FileName = "git", Arguments = $"clone {url}", WorkingDirectory = cloneToLocation},
             EnableRaisingEvents = true
         };
 
