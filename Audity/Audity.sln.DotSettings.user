@@ -1,0 +1,13 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;
+  &lt;Assembly Path="/Users/genady/.nuget/packages/mediatr/12.0.1/lib/net6.0/MediatR.dll" /&gt;
+  &lt;Assembly Path="/Users/genady/.nuget/packages/microsoft.extensions.logging.abstractions/8.0.0-preview.4.23259.5/lib/net7.0/Microsoft.Extensions.Logging.Abstractions.dll" /&gt;
+  &lt;Assembly Path="/Users/genady/.nuget/packages/coralogixcoresdk/1.1.12/lib/netstandard2.0/CoralogixCoreSDK.dll" /&gt;
+&lt;/AssemblyExplorer&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=01d96480_002D8318_002D4fd5_002Daaee_002Da2acf50bcfd4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="AuditEventTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::20220607-4289-4A17-8992-B84C3E65EE4C::net7.0::Domain.Tests.Entities.AuditEventTest&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:Boolean x:Key="/Default/UserDictionary/Words/=Audity/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/UserDictionary/Words/=Coralogix/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>
