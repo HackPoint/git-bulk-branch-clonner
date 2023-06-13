@@ -1,15 +1,13 @@
-using System.Diagnostics.CodeAnalysis;
-using System.Text;
-using Application.Interfaces;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace Application.Common.Behaviours;
 
 public class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse> {
-    private readonly ICoralogixLogger<TRequest> _logger;
+    private readonly ILogger<TRequest> _logger;
 
-    public UnhandledExceptionBehaviour(ICoralogixLogger<TRequest> logger) {
+    public UnhandledExceptionBehaviour(ILogger<TRequest> logger) {
         _logger = logger;
     }
 
@@ -22,8 +20,8 @@ public class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipelineBehavio
             var requestName = typeof(TRequest).Name;
             string message = string.Format("Request: Unhandled Exception for Request {0} {1}, Error: {2}",
                 requestName, request, ex);
-            
-            _logger.Error(message, "unhandled error", requestName);
+
+            _logger.LogError(ex, "Unhandled error: {RequestName}", requestName);
             throw;
         }
     }

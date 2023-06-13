@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Application;
 using Infrastructure;
 
@@ -9,7 +10,16 @@ builder.Services
     .AddApplicationServices()
     .AddEndpointsApiExplorer();
 
-builder.Services.AddRouting(options => { options.LowercaseUrls = true;});
+builder.Services.AddLogging(cfg => {
+    cfg.AddJsonConsole(opts => {
+        opts.IncludeScopes = true;
+        opts.JsonWriterOptions = new JsonWriterOptions {
+            Indented = true
+        };
+    });
+});
+
+builder.Services.AddRouting(options => { options.LowercaseUrls = true; });
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 

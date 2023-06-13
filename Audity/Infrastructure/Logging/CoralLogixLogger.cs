@@ -8,7 +8,7 @@ public class CoralLogixLogger<T> : ICoralogixLogger<T> {
 
     public CoralLogixLogger() {
         _logger = CoralogixLogger.GetLogger("arborknot");
-        _logger.Configure("06c2f56c-3783-e12b-2301-c0bf5677f062", "Audit", "infra");
+        _logger.Configure(Environment.GetEnvironmentVariable("CORALOGIX_PRIVATE_KEY"), "Audit", "infra");
     }
 
     public void Info(
