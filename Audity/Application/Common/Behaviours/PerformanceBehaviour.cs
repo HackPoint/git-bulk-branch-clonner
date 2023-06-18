@@ -8,12 +8,12 @@ namespace Application.Common.Behaviours;
 public class PerformanceBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse> {
     private readonly Stopwatch _timer;
-    private readonly ICoralogixLogger<TRequest> _logger;
+    private readonly ILogger<TRequest> _logger;
 
     public PerformanceBehaviour(
-        ICoralogixLogger<TRequest> logger
+        ILogger<TRequest> logger
     ) {
-        _logger = logger;
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _timer = new Stopwatch();
     }
 
@@ -27,12 +27,11 @@ public class PerformanceBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequ
 
         if (elapsedMilliseconds > 500) {
             var requestName = typeof(TRequest).Name;
-            _logger.Warning(
-                string.Format("Too Long Running Request: Name {0} ElapsedMilliseconds:({1} milliseconds) Request: {2}",
-                    requestName, elapsedMilliseconds, request)
+            _logger.LogWarning(
+                "Too Long Running Request: Name {Name} ElapsedMilliseconds:({ElapsedMilliseconds} milliseconds) Request: {@Request}",
+                requestName, elapsedMilliseconds, request
             );
         }
-
         return response;
     }
 }

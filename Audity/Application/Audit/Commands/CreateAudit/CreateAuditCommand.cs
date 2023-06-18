@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Application.Interfaces;
 using Domain.Entities;
 using MediatR;
@@ -9,6 +10,8 @@ public class CreateAuditCommand : IRequest<Guid> {
     public string ApplicationName { get; set; }
     public string ApplicationScreen { get; set; }
     public string ChangeType { get; set; }
+    public string PrevState { get; set; }
+    public string CurrState { get; set; }
     public Guid DcaId { get; set; }
     public Guid UpdatedBy { get; init; }
 }
@@ -28,6 +31,8 @@ public class CreateAuditCommandHandler :
             ApplicationName = request.ApplicationName,
             ApplicationScreen = request.ApplicationScreen,
             ChangeType = request.ChangeType,
+            PrevState = request.PrevState,
+            CurrState = request.CurrState,
             DcaId = request.DcaId,
             UpdatedBy = request.UpdatedBy
         };

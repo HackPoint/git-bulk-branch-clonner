@@ -33,6 +33,13 @@ public class AuditEventConfiguration : IEntityTypeConfiguration<AuditEvent> {
         builder.Property(cfg => cfg.DcaId)
             .HasColumnName("dca_id")
             .IsRequired();
+
+        builder.Property(cfg => cfg.PrevState)
+            .HasColumnName("row_before")
+            .HasColumnType("jsonb");
+        
+        builder.Property(cfg => cfg.CurrState)
+            .HasColumnName("row_after")
+            .HasColumnType("jsonb");
     }
-    
 }
