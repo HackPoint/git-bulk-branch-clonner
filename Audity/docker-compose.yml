@@ -1,0 +1,21 @@
+﻿services:
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_USER=genady
+      - POSTGRES_PASSWORD=Aa12345!@#
+    ports:
+      - '5432:5432'
+    volumes:
+      - db:/var/lib/postgresql/data
+  audityapi:
+    image: audityapi
+    build:
+      context: .
+      dockerfile: AudityApi/Dockerfile
+    depends_on:
+      - db
+volumes:
+  db:
+    driver: local

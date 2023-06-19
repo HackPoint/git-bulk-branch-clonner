@@ -9,10 +9,13 @@ public class AuditEvent : BaseAuditEntity {
     public string ApplicationName { get; set; }
     public string ApplicationScreen { get; set; }
     public string ChangeType { get; set; }
+    
     [Column(TypeName = "jsonb")]
     public string PrevState { get; set; }
+    
     [Column(TypeName = "jsonb")]
     public string CurrState { get; set; }
+    
     public Guid DcaId { get; set; }
     public Guid UpdatedBy { get; init; }
 }

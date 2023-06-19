@@ -16,6 +16,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AudityApi", "AudityApi\Audi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.UnitTests", "Application.UnitTests\Application.UnitTests.csproj", "{88B064CD-3503-43BE-A362-C77850FAAC5B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C1ADFD6B-61E4-4F14-873C-AED9D01D2DE4}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
