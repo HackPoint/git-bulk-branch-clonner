@@ -14,8 +14,11 @@
     build:
       context: .
       dockerfile: AudityApi/Dockerfile
+    ports:
+      - 8081:5000
     depends_on:
       - db
 volumes:
   db:
     driver: local
+  

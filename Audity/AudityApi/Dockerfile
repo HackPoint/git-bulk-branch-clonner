@@ -3,6 +3,11 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
+# Set an environment variable to tell Chrome to run in headless mode
+ENV ASPNETCORE_URLS=http://+:5000 \
+    ASPNETCORE_ENVIRONMENT=Production \
+    CHROME_BIN=/usr/bin/google-chrome
+    
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY ["AudityApi/AudityApi.csproj", "AudityApi/"]
